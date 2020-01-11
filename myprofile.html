@@ -96,19 +96,13 @@
                     <div id="avgcard">
                         
                         <div class="row ">
-                            <div class="col m6 s5 offset-s1 blue darken-1" ><br><center><i class="material-icons  Medium" style="color:white">remove_red_eye </i></center> <center><b style="color:white" id="e">0</b></center></div>
-                            <div class="col m6 s5 yellow darken-2"><br><center><i class="material-icons  Medium" style="color:white">record_voice_over </i></center> <center><b style="color:white" id="v">0</b></center></div>
-                            <div class="col m6 s5 offset-s1 green darken-1"><br><center><i class="material-icons  Medium" style="color:white">portrait </i></center> <center><b style="color:white" id="c">0</b></center></div>
-                            <div class="col m6 s5  red darken-1"><br><center><i class="material-icons  Medium" style="color:white">wb_incandescent </i></center> <center><b style="color:white" id="k">0</b></center></div>
+                            <div class="col m6 s5 offset-s1 blue darken-1 tooltipped" data-position="top" data-tooltip="Eye Contact"><br><center><i class="material-icons  Medium" style="color:white">remove_red_eye </i></center><center><b style="color:white" id="e">0</b></center></div>
+                            <div class="col m6 s5 yellow darken-2 tooltipped" data-position="top" data-tooltip="Voice"><br><center><i class="material-icons  Medium" style="color:white">record_voice_over </i></center> <center><b style="color:white" id="v">0</b></center></div>
+                            <div class="col m6 s5 offset-s1 green darken-1 tooltipped" data-position="bottom" data-tooltip="Confidence"><br><center><i class="material-icons  Medium" style="color:white">portrait </i></center> <center><b style="color:white" id="c">0</b></center></div>
+                            <div class="col m6 s5  red darken-1 tooltipped" data-position="bottom" data-tooltip="Knowledge"><br><center><i class="material-icons  Medium" style="color:white">wb_incandescent </i></center> <center><b style="color:white" id="k">0</b></center></div>
                         </div>
                         <!-- all avg details go here -->
                     </div>
-                </div>
-                <div class="card-action blue darken-1" >
-                    <center>
-                    <a href="#" style="color: white;">Average</a>
-                    <a href="#" style="color: white;">Rating</a>
-                    </center>
                 </div>
             </div>
         </div>
@@ -240,7 +234,7 @@ function copyProfile() {
 
 
 $(document).ready(function(){
-
+    $('.tooltipped').tooltip();
     //initializing modal
     $('.modal').modal();
 
