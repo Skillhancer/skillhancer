@@ -52,12 +52,41 @@
                 <div class="card-action" style="padding-bottom: 5px;">
                     <img src="images/beginer.jpg" alt="images/833.gif" height="80px" width="80px" id="medal">
                     <div class="row" id="personalinfo">
+                        <div class="editprofile">
+                            <a style="float:right;" class="modal-trigger" href="#modal2" ><i style="color:black;font-size: 24px;" class="fa fa-fw fa-edit"></i></a>
+                    </div>
                         <!-- personal info will appended here -->
                     </div>
                 </div>
             </div>
         </div>
-        
+        <!-- Model For the Update Name and the Image Both -->
+  <!-- Modal Structure -->
+  <div id="modal2" style="height:570px;" class="modal fade">
+        <a style="float:right" href="#!" class="modal-close "><i style="color:black;font-size:26px;margin-left:30px;" class="fa fa-fw fa-close"></i></a>
+    <div class="modal-content">
+      <h4>Edit Intro</h4>
+      <!-- Images fetch from the Google Login  -->
+      <center><img id="profileimage" style=" border-radius: 50%; border: solid 3px whitesmoke;" src="images/833.gif" height="210px;" alt=""><a  class="modal-trigger" href="#modal1" ><i style="color:black" class="fa fa-fw fa-edit"></i> </a></center>
+    <br>
+    <div class="row" style="height:100px;">
+            <div class="input-field col s6">
+                <input id="firstname" value="Sarvesh" name="firstname" type="text" class="">
+                <label for="firstname">First Name</label>
+            </div>
+            <div class="input-field col s6">
+                <input id="lastname" value="Pathak" name="lastname" type="text" class="">
+                <label for="lastname">Last Name</label>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="modal-footer">
+      <a href="#" class="btn-small blue">Save</a><!-- Save the Uploaded Image -->
+    </div>
+  </div>
+<!-- Model for Profile End here -->
+      
         <!-- profile card ends here -->
 
         <!-- avarge card -->
