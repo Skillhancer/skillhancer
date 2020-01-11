@@ -1,0 +1,20 @@
+{
+  "name": "Preskilet Professional",
+  "short_name": "Preskilet",
+  "start_url": "https://preskilet.herokuapp.com/",
+  "display": "fullscreen",
+  "background_color": "#fff",
+  "description": "Present your soft skill set",
+  "icons": [
+    {
+      "src": "images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "images/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

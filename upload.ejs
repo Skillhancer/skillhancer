@@ -1,0 +1,169 @@
+<html>
+<head>
+   
+    <title>Upload Presentation</title>
+    <link rel="icon" href="/images/logo.png">
+    <!--icons  -->
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+     <link rel="stylesheet" href="css/materialize.min.css">
+     <link rel="stylesheet" href="css/materialize.css">
+     <link rel="stylesheet" href="css/navbar.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+     <!-- Compiled and minified JavaScript -->
+     <script src="js/materialize.min.js"></script>
+     <script src="js/materialize.js"></script>
+     <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+     <script type="text/javascript" src="js/navbar.js"></script>
+
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+    
+<style>
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .default {
+        cursor: default;
+    }
+</style>
+
+             
+</head>
+<body>
+   
+    <div class="topnav" id="myTopnav" style="width: 100%;">
+        <a href="/mainpage/" class="active"><i class="fa fa-fw fa-home"></i> Preskilet</a>
+        <a href="/upload"><i class="fa fa-fw fa-cloud-upload "></i> Upload Presentation</a>
+        <a href="/mainpage/myprofile"><i class="fa fa-fw fa-user"></i> Profile</a>
+        <a href="/auth/logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="material-icons">apps</i>
+        </a>
+        </div>
+    <br>
+
+<div id="parent">
+    <form action="/mainpage/uploadproject" method="post" id="form_id" enctype="multipart/form-data" >
+
+  <div class="row">
+    <div class="col s12 m6 offset-m3">
+      <div class="card " style="border: solid 2px black;">
+            <div class="card-content ">
+                <span class="card-title">Upload Presentation</span>
+                <p style="color: red;">* Title Must Be less than 25 characters</p>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">title</i>
+                                <input id="title" name="title" type="text" class="validate" maxlength="25" required>
+                                <label for="title">Title</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">description</i>
+                                <textarea id="description"  name="description" type="text" class="materialize-textarea" required></textarea>
+                                <label for="description">Description</label>
+                            </div>
+                        </div>
+                        <div class="file-field input-field">
+                            <div class="btn blue-grey darken-4">
+                            <span>File</span>
+                            <input type="file" name="user_uploaded_video" id="user_uploaded_video" accept=".mp4" onchange="Filevalidation()" required>
+                            </div>
+                            <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p style="color:red"><b>File size must be less than 15 mb</b></p>
+
+            </div>
+            <div id="atag">
+            <a style="color:white" onclick="form_id.submit();" class="default" id="btn" >
+                <div class="card-action blue darken-3" >
+                    <center>
+                    Submit
+                    </center>
+                </div>
+            </a>
+            </div>
+        </div>
+    </div>
+  </div>
+
+</form>
+</div>
+
+<div class="row" id="loading">
+    <div class="col s12 m6 offset-m3">
+      <div class="card " style="border: solid 2px black;">
+            <div class="card-content ">
+                <span class="card-title">Uploading Project... <img src="images/833.gif" alt="" height="20px" width="20px"></span>
+                <p>Please wait we are analizing and uploading your project</p>
+                <p>This we process will take some time depending on:</p>
+                <ol>
+                    <li>Size Of File</li>
+                    <li>Internet Speed</li>
+                    <li>Content Of Video</li>
+                </ol>
+                <p style="color:red"><b>Do not perform any other operation while project is being uploaded</b></p>
+                <p style="color:red"><b>You will be automatically redirected to your profile after file is uploaded</b></p>
+
+
+
+            </div>
+            <a style="color:white"  >
+                <div class="card-action blue darken-3">
+               
+                </div>
+            </a>
+
+        </div>
+    </div>
+  </div>
+
+
+
+<script>
+$(document).ready(function(){
+    $('#loading').hide();
+    $('#atag').hide()
+    $('#btn').click(function(){
+        $('#parent').hide()
+        $('#loading').fadeIn(600)
+    })
+})
+
+Filevalidation = () => { 
+        const fi = document.getElementById('user_uploaded_video'); 
+        // Check if any file is selected. 
+        if (fi.files.length > 0) { 
+            for (const i = 0; i <= fi.files.length - 1; i++) { 
+  
+                const fsize = fi.files.item(i).size; 
+                const file = Math.round((fsize / 1024)); 
+                // The size of the file. 
+                if (file >= 15000) { 
+                    alert( 
+                      "File too Big, please select a file less than 15mb"); 
+                      $('#atag').hide()
+					 }else { 
+                        $('#atag').fadeIn(600)
+                } 
+            } 
+        } 
+    } 
+</script>
+</body>
+</html>
