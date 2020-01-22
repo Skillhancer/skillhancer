@@ -21,7 +21,7 @@ passport.deserializeUser((id,done)=>{
 passport.use(
     new GoogleStrategy({
         //options for google
-        callbackURL:'https://preskilet.herokuapp.com/auth/google/redirect',
+        callbackURL:'http://localhost:3000/auth/google/redirect',
         clientID: keys.google.clientID,
         clientSecret: keys.google.clientSecret
     },(accessToken,refreshToken,profile,done)=>{
@@ -49,7 +49,12 @@ passport.use(
                     avgvoice : 0,
                     avgconfidence : 0,
                     avgknowledge : 0,
-                    avgall : 0
+                    avgall : 0,
+                    peeravgeye : 0,
+                    peeravgvoice : 0,
+                    peeravgconfidence : 0,
+                    peeravgknowledge : 0,
+                    peeravgall : 0
                 }).save().then((newUser)=>{
                     console.log('new user:',newUser);
                     done(null,newUser);

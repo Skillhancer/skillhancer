@@ -103,6 +103,10 @@ router.post('/uploadproject',(req,res)=>{
                     avgvoice : 0,
                     avgconfidence : 0,
                     avgknowledge : 0,
+                    peeravgeye : 0,
+                    peeravgvoice : 0,
+                    peeravgconfidence : 0,
+                    peeravgknowledge : 0,
                     inapropriate_count:0,
                     
                 }).save().then((newVideo)=>{

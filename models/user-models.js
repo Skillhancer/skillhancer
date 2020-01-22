@@ -11,8 +11,13 @@ const userSchema = new Schema({
     avgconfidence : Number,
     avgknowledge : Number,
     avgall : Number,
+    peeravgeye : Number,
+    peeravgvoice : Number,
+    peeravgconfidence : Number,
+    peeravgknowledge : Number,
+    peeravgall : Number,
     gradecount : Number,
-    inapropriate : [String]
+    
 })
 
 const User = mongoose.model('student',userSchema);

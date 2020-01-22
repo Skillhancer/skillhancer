@@ -12,6 +12,10 @@ const videoSchema = new Schema({
     avgvoice : Number,
     avgconfidence : Number,
     avgknowledge : Number,
+    peeravgeye : Number,
+    peeravgvoice : Number,
+    peeravgconfidence : Number,
+    peeravgknowledge : Number,
     inapropriate_count : Number
 })
 
