@@ -52,12 +52,41 @@
                 <div class="card-action" style="padding-bottom: 5px;">
                     <img src="images/beginer.jpg" alt="images/833.gif" height="80px" width="80px" id="medal">
                     <div class="row" id="personalinfo">
+                        <div class="editprofile">
+                            <a style="float:right;" class="modal-trigger" href="#modal2" ><i style="color:black;font-size: 24px;" class="fa fa-fw fa-edit"></i></a>
+                    </div>
                         <!-- personal info will appended here -->
                     </div>
                 </div>
             </div>
         </div>
-        
+        <!-- Model For the Update Name and the Image Both -->
+  <!-- Modal Structure -->
+  <div id="modal2" style="height:570px;" class="modal fade">
+        <a style="float:right" href="#!" class="modal-close "><i style="color:black;font-size:26px;margin-left:30px;" class="fa fa-fw fa-close"></i></a>
+    <div class="modal-content">
+      <h4>Edit Intro</h4>
+      <!-- Images fetch from the Google Login  -->
+      <center><img id="profileimage" style=" border-radius: 50%; border: solid 3px whitesmoke;" src="images/833.gif" height="210px;" alt=""><a  class="modal-trigger" href="#modal1" ><i style="color:black" class="fa fa-fw fa-edit"></i> </a></center>
+    <br>
+    <div class="row" style="height:100px;">
+            <div class="input-field col s6">
+                <input id="firstname" value="Sarvesh" name="firstname" type="text" class="">
+                <label for="firstname">First Name</label>
+            </div>
+            <div class="input-field col s6">
+                <input id="lastname" value="Pathak" name="lastname" type="text" class="">
+                <label for="lastname">Last Name</label>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="modal-footer">
+      <a href="#" class="btn-small blue">Save</a><!-- Save the Uploaded Image -->
+    </div>
+  </div>
+<!-- Model for Profile End here -->
+      
         <!-- profile card ends here -->
 
         <!-- avarge card -->
@@ -76,19 +105,13 @@
                     <div id="avgcard">
                         
                         <div class="row ">
-                            <div class="col m6 s5 offset-s1 blue darken-1" ><br><center><i class="material-icons  Medium" style="color:white">remove_red_eye </i></center> <center><b style="color:white" id="e">0</b></center></div>
-                            <div class="col m6 s5 yellow darken-2"><br><center><i class="material-icons  Medium" style="color:white">record_voice_over </i></center> <center><b style="color:white" id="v">0</b></center></div>
-                            <div class="col m6 s5 offset-s1 green darken-1"><br><center><i class="material-icons  Medium" style="color:white">portrait </i></center> <center><b style="color:white" id="c">0</b></center></div>
-                            <div class="col m6 s5  red darken-1"><br><center><i class="material-icons  Medium" style="color:white">wb_incandescent </i></center> <center><b style="color:white" id="k">0</b></center></div>
+                            <div class="col m6 s5 offset-s1 blue darken-1 tooltipped" data-position="top" data-tooltip="Eye Contact"><br><center><i class="material-icons  Medium" style="color:white">remove_red_eye </i></center><center><b style="color:white" id="e">0</b></center></div>
+                            <div class="col m6 s5 yellow darken-2 tooltipped" data-position="top" data-tooltip="Voice"><br><center><i class="material-icons  Medium" style="color:white">record_voice_over </i></center> <center><b style="color:white" id="v">0</b></center></div>
+                            <div class="col m6 s5 offset-s1 green darken-1 tooltipped" data-position="bottom" data-tooltip="Confidence"><br><center><i class="material-icons  Medium" style="color:white">portrait </i></center> <center><b style="color:white" id="c">0</b></center></div>
+                            <div class="col m6 s5  red darken-1 tooltipped" data-position="bottom" data-tooltip="Knowledge"><br><center><i class="material-icons  Medium" style="color:white">wb_incandescent </i></center> <center><b style="color:white" id="k">0</b></center></div>
                         </div>
                         <!-- all avg details go here -->
                     </div>
-                </div>
-                <div class="card-action blue darken-1" >
-                    <center>
-                    <a href="#" style="color: white;">Average</a>
-                    <a href="#" style="color: white;">Rating</a>
-                    </center>
                 </div>
             </div>
         </div>
@@ -220,7 +243,7 @@ function copyProfile() {
 
 
 $(document).ready(function(){
-
+    $('.tooltipped').tooltip();
     //initializing modal
     $('.modal').modal();
 
