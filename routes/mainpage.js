@@ -5,6 +5,8 @@ const fs = require('fs')
 const Video = require('../models/video')
 const User = require('../models/user-models')
 const Gvideo = require('../models/graded-video')
+const Pvideo = require('../models/peergraded-video')
+const References = require('../models/references')
 const admin = require('firebase-admin')
 const serviceAccount = require('./preskiletprofessional-firebase-adminsdk-n9blw-61ade7872c.json')
 admin.initializeApp({
@@ -34,20 +36,52 @@ router.get('/',authcheck,(req,res)=>{
 //ajax call onload of mainpage
 router.get('/givevideo',(req,res)=>{
     const para=[];
-    console.log("Current user mail",req.user.mail)
-    console.log(req.user.mail)
-    Gvideo.distinct("path",{grader_mail:req.user.mail}).then((videoPath)=>{
-        Video.find({$and:[{path:{$nin:videoPath}},{path:{$nin:req.user.inapropriate}},{mail:{$ne:req.user.mail}}]}).then((NGvideo)=>{
-            console.log("path are:",videoPath)
-            Video.find({$and:[{path:{$in:videoPath}},{mail:{$ne:req.user.mail}}]}).then((Gvideo)=>{
-                console.log("Graded:",Gvideo)
-                res.send({"video":NGvideo,"gvideo":Gvideo})
-            })
-            
-        })
-    })
-    
+    var flag = 0;
+    References.findOne({'uid':'123'}).then((ref)=>{
+        console.log("This is details",ref.mails)
+        console.log("current user:",req.user.mail)
+        var arr = ref.mails;
+        for(let i=0;i<arr.length;i++)
+        {
+            console.log("array elements:",arr[i])
+            if(arr[i] == req.user.mail)
+            {
+                flag=1;
+                console.log("flag is:",flag)
+            }
+        }
 
+        if(flag == 1)
+        {
+            console.log("Current user mail",req.user.mail)
+            console.log(req.user.mail)
+            Gvideo.distinct("path",{grader_mail:req.user.mail}).then((videoPath)=>{
+                Video.find({$and:[{path:{$nin:videoPath}},{path:{$nin:req.user.inapropriate}},{mail:{$ne:req.user.mail}}]}).then((NGvideo)=>{
+                    console.log("path are:",videoPath)
+                    Video.find({$and:[{path:{$in:videoPath}},{mail:{$ne:req.user.mail}}]}).then((Gvideo)=>{
+                        console.log("Graded:",Gvideo)
+                        res.send({"video":NGvideo,"gvideo":Gvideo})
+                    })
+                    
+                })
+            })
+        }
+        else
+        {
+            console.log("Current user mail",req.user.mail)
+            console.log(req.user.mail)
+            Pvideo.distinct("path",{grader_mail:req.user.mail}).then((videoPath)=>{
+                Video.find({$and:[{path:{$nin:videoPath}},{path:{$nin:req.user.inapropriate}},{mail:{$ne:req.user.mail}}]}).then((NGvideo)=>{
+                    console.log("path are:",videoPath)
+                    Video.find({$and:[{path:{$in:videoPath}},{mail:{$ne:req.user.mail}}]}).then((Gvideo)=>{
+                        console.log("Graded:",Gvideo)
+                        res.send({"video":NGvideo,"gvideo":Gvideo})
+                    })
+                    
+                })
+            })
+        }
+    })
 })
 
 
@@ -130,34 +164,82 @@ router.post('/uploadproject',(req,res)=>{
 
 router.get('/search',(req,res)=>{
     const para=[];
-    
-    console.log("search parameter is:",req.query.searchval)
-    if(req.query.searchval=="")
-    {
-        Gvideo.distinct("path",{grader_mail:req.user.mail}).then((videoPath)=>{
+    var flag =0;
+    References.findOne({'uid':'123'}).then((ref)=>{
+        console.log("This is details",ref.mails)
+        console.log("current user:",req.user.mail)
+        var arr = ref.mails;
+        for(let i=0;i<arr.length;i++)
+        {
+            console.log("array elements:",arr[i])
+            if(arr[i] == req.user.mail)
+            {
+                flag=1;
+                console.log("flag is:",flag)
+            }
+        }
         
-            Video.find({$and:[{path:{$nin:videoPath}},{path:{$nin:req.user.inapropriate}},{mail:{$ne:req.user.mail}}]}).then((NGvideo)=>{
-                console.log("path are:",videoPath)
-                Video.find({$and:[{path:{$in:videoPath}},{mail:{$ne:req.user.mail}}]}).then((Gvideo)=>{
-                    console.log("Graded:",Gvideo)
-                    res.send({"video":NGvideo,"gvideo":Gvideo})
+        console.log("search parameter is:",req.query.searchval)
+        if(req.query.searchval=="")
+        {
+            if(flag == 1)
+            {
+                Gvideo.distinct("path",{grader_mail:req.user.mail}).then((videoPath)=>{
+                    Video.find({$and:[{path:{$nin:videoPath}},{path:{$nin:req.user.inapropriate}},{mail:{$ne:req.user.mail}}]}).then((NGvideo)=>{
+                        console.log("path are:",videoPath)
+                        Video.find({$and:[{path:{$in:videoPath}},{mail:{$ne:req.user.mail}}]}).then((Gvideo)=>{
+                            console.log("Graded:",Gvideo)
+                            res.send({"video":NGvideo,"gvideo":Gvideo})
+                        })
+                    })
                 })
-                
-            })
-        })
-    }else
-    {
-        Gvideo.distinct("path",{grader_mail:req.user.mail}).then((videoPath)=>{
-            Video.find({$and:[{path:{$nin:videoPath}},{path:{$nin:req.user.inapropriate}},{mail:{$ne:req.user.mail}},{$or:[{mail:{ $regex: '.*' + req.query.searchval + '.*' }},{name:{ $regex: '.*' + req.query.searchval + '.*' }},{seat:{ $regex: '.*' + req.query.searchval + '.*' }},{title:{ $regex: '.*' + req.query.searchval + '.*' }}]}]}).then((NGvideo)=>{
-                console.log("path are:",videoPath)
-                Video.find({$and:[{path:{$in:videoPath}},{mail:{$ne:req.user.mail}},{$or:[{mail:{ $regex: '.*' + req.query.searchval + '.*' }},{name:{ $regex: '.*' + req.query.searchval + '.*' }},{seat:{ $regex: '.*' + req.query.searchval + '.*' }},{title:{ $regex: '.*' + req.query.searchval + '.*' }}]}]}).then((Gvideo)=>{
-                    console.log("Graded:",Gvideo)
-                    res.send({"video":NGvideo,"gvideo":Gvideo})
+            }
+            else
+            {
+                Pvideo.distinct("path",{grader_mail:req.user.mail}).then((videoPath)=>{
+                    Video.find({$and:[{path:{$nin:videoPath}},{path:{$nin:req.user.inapropriate}},{mail:{$ne:req.user.mail}}]}).then((NGvideo)=>{
+                        console.log("path are:",videoPath)
+                        Video.find({$and:[{path:{$in:videoPath}},{mail:{$ne:req.user.mail}}]}).then((Gvideo)=>{
+                            console.log("Graded:",Gvideo)
+                            res.send({"video":NGvideo,"gvideo":Gvideo})
+                        })
+                    })
                 })
-            })
-        })
+            }
 
-    }
+        }else
+        {
+            if(flag == 1)
+            {
+                Gvideo.distinct("path",{grader_mail:req.user.mail}).then((videoPath)=>{
+                    Video.find({$and:[{path:{$nin:videoPath}},{path:{$nin:req.user.inapropriate}},{mail:{$ne:req.user.mail}},{$or:[{mail:{ $regex: '.*' + req.query.searchval + '.*' }},{name:{ $regex: '.*' + req.query.searchval + '.*' }},{seat:{ $regex: '.*' + req.query.searchval + '.*' }},{title:{ $regex: '.*' + req.query.searchval + '.*' }}]}]}).then((NGvideo)=>{
+                        console.log("path are:",videoPath)
+                        Video.find({$and:[{path:{$in:videoPath}},{mail:{$ne:req.user.mail}},{$or:[{mail:{ $regex: '.*' + req.query.searchval + '.*' }},{name:{ $regex: '.*' + req.query.searchval + '.*' }},{seat:{ $regex: '.*' + req.query.searchval + '.*' }},{title:{ $regex: '.*' + req.query.searchval + '.*' }}]}]}).then((Gvideo)=>{
+                            console.log("Graded:",Gvideo)
+                            res.send({"video":NGvideo,"gvideo":Gvideo})
+                        })
+                    })
+                })
+            }
+            else
+            {
+                Pvideo.distinct("path",{grader_mail:req.user.mail}).then((videoPath)=>{
+                    Video.find({$and:[{path:{$nin:videoPath}},{path:{$nin:req.user.inapropriate}},{mail:{$ne:req.user.mail}},{$or:[{mail:{ $regex: '.*' + req.query.searchval + '.*' }},{name:{ $regex: '.*' + req.query.searchval + '.*' }},{seat:{ $regex: '.*' + req.query.searchval + '.*' }},{title:{ $regex: '.*' + req.query.searchval + '.*' }}]}]}).then((NGvideo)=>{
+                        console.log("path are:",videoPath)
+                        Video.find({$and:[{path:{$in:videoPath}},{mail:{$ne:req.user.mail}},{$or:[{mail:{ $regex: '.*' + req.query.searchval + '.*' }},{name:{ $regex: '.*' + req.query.searchval + '.*' }},{seat:{ $regex: '.*' + req.query.searchval + '.*' }},{title:{ $regex: '.*' + req.query.searchval + '.*' }}]}]}).then((Gvideo)=>{
+                            console.log("Graded:",Gvideo)
+                            res.send({"video":NGvideo,"gvideo":Gvideo})
+                        })
+                    })
+                })
+            }
+
+
+        }
+    
+    })
+    
+    
 })
 
 // module for search query ends here 
@@ -192,24 +274,65 @@ router.get('/getDetails',(req,res)=>{
     clickedmail = clickedmail[1]
     clickedmail = clickedmail.replace('%40',"@")
     console.log("this is eemail :",clickedmail)
-    Gvideo.distinct("path",{grader_mail:req.user.mail}).then((videoPath)=>{
-        Video.find({$and:[{path:{$nin:videoPath}},{path:{$nin:req.user.inapropriate}},{mail:clickedmail}]}).then((NGvideo)=>{
-            console.log("path are:",videoPath)
-            Video.find({$and:[{path:{$in:videoPath}},{mail:clickedmail}]}).then((Gvideo)=>{
-                User.findOne({mail:clickedmail}).then((clickedUser)=>{
-                    if(clickedmail == req.user.mail)
-                    {
-                        flag = 1
-                    }
-                    else
-                    {
-                        flag = 0
-                    }
-                    res.send({"user":clickedUser,"video":NGvideo,"gvideo":Gvideo,"flag":flag})
+    var flag2 = 0;
+    References.findOne({'uid':'123'}).then((ref)=>{
+        console.log("This is details",ref.mails)
+        console.log("current user:",req.user.mail)
+        var arr = ref.mails;
+        for(let i=0;i<arr.length;i++)
+        {
+            console.log("array elements:",arr[i])
+            if(arr[i] == req.user.mail)
+            {
+                flag2=1;
+                console.log("flag is:",flag)
+            }
+        }
+        if(flag2 == 1)
+        {
+            Gvideo.distinct("path",{grader_mail:req.user.mail}).then((videoPath)=>{
+                Video.find({$and:[{path:{$nin:videoPath}},{path:{$nin:req.user.inapropriate}},{mail:clickedmail}]}).then((NGvideo)=>{
+                    console.log("path are:",videoPath)
+                    Video.find({$and:[{path:{$in:videoPath}},{mail:clickedmail}]}).then((Gvideo)=>{
+                        User.findOne({mail:clickedmail}).then((clickedUser)=>{
+                            if(clickedmail == req.user.mail)
+                            {
+                                flag = 1
+                            }
+                            else
+                            {
+                                flag = 0
+                            }
+                            res.send({"user":clickedUser,"video":NGvideo,"gvideo":Gvideo,"flag":flag})
+                        })
+                    })
                 })
             })
-        })
+        }
+        else
+        {
+            Pvideo.distinct("path",{grader_mail:req.user.mail}).then((videoPath)=>{
+                Video.find({$and:[{path:{$nin:videoPath}},{path:{$nin:req.user.inapropriate}},{mail:clickedmail}]}).then((NGvideo)=>{
+                    console.log("path are:",videoPath)
+                    Video.find({$and:[{path:{$in:videoPath}},{mail:clickedmail}]}).then((Gvideo)=>{
+                        User.findOne({mail:clickedmail}).then((clickedUser)=>{
+                            if(clickedmail == req.user.mail)
+                            {
+                                flag = 1
+                            }
+                            else
+                            {
+                                flag = 0
+                            }
+                            res.send({"user":clickedUser,"video":NGvideo,"gvideo":Gvideo,"flag":flag})
+                        })
+                    })
+                })
+            })
+        }
+        
     })
+    
 })
 //module for getting the profile on click ends
 
