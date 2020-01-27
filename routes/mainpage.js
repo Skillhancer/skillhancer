@@ -106,6 +106,7 @@ router.post('/uploadproject',(req,res)=>{
         var gname = req.file.filename
         const options = {
             resumable: false,
+            
           };
         bucket.upload(name,options,function(err, file, apiResponse) {
             console.log('inside Error:',err)

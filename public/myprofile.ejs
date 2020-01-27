@@ -5,16 +5,17 @@
     <link rel="icon" href="/images/logo.png">
     <!--icons  -->
      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Compiled and minified CSS -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+     <!-- Compiled and minified CSS -->
      <link rel="stylesheet" href="css/materialize.min.css">
      <link rel="stylesheet" href="css/materialize.css">
      <link rel="stylesheet" href="css/navbar.css">
      <link rel="stylesheet" href="css/body.css">
      <link rel="stylesheet" href="css/myprofile.css">
+     <link rel="stylesheet" href="css/introductionvideo.css">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
      <link rel="stylesheet" href="css/preloader.css">
-
-
 
      <!-- Compiled and minified JavaScript -->
      <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
@@ -28,8 +29,7 @@
             $("#preloder").fadeOut("slow");
         });
     </script>
-     <meta content="width=device-width, initial-scale=1" name="viewport" />
-
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
 </head>
 
 <div id="preloder"> 
@@ -51,6 +51,13 @@
 
 <body>
    
+    <!-- overlay text -->
+
+    <div id="overlay" >
+        <div id="text">Updating profile please wait...</div>
+    </div>
+
+    <!-- overlay ends here -->
     <div class="topnav" id="myTopnav" style="width: 100%;">
         <a href="/mainpage/" class="active"><i class="fa fa-fw fa-home"></i> SkillHancer</a>
         <a href="/upload"><i class="fa fa-fw fa-cloud-upload "></i> Upload Presentation</a>
@@ -67,25 +74,63 @@
     <div class="row">
         <div class="col s12 m9 offset-m1">
             <div class="card white">
-                <div class="card-content white-text " style="background: linear-gradient(-135deg, #36d1dc,#5b86e5 );">
-                    <span class="card-title" ><img id="profileimage"   width="155" height="150" style=" border-radius: 50%; border: solid 3px whitesmoke;" src="images/833.gif"> 
+                <div class="card-content white-text " style="background: #1e88e5;">
+                    <span class="card-title" >
+                        <img id="profileimage"  width="155" height="150" style=" border-radius: 50%; border: solid 3px whitesmoke;" src="images/833.gif" class="modal-trigger" href="#modal2"> 
                     </span>
                 </div>
-                <div class="row"> 
-                    <div class="card-action col s6" style="padding-bottom: 5px;padding-left: 5%;">
-                        <img class="tooltipped" src="images/beginer.jpg" alt="images/833.gif" data-position="top" data-tooltip="Medal Earned" height="80px" width="80px" id="medal">
-                        <div class="row" id="personalinfo">
-                            <!-- personal info will appended here -->
+                <div class="card-action" style="padding-bottom: 5px;">
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="col s12">
+                                <p style="color: green;">Graded By Expert</p>
+                                <img src="images/beginer.jpg" alt="images/833.gif" height="45px" width="45px" id="medal_default_expert" >
+                                <img src="images/bronze.png" alt="images/833.gif" height="45px" width="45px" id="medal_bronze_expert" style="opacity: 0.2;">
+                                <img src="images/silver.png" alt="images/833.gif" height="45px" width="45px" id="medal_silver_expert" style="opacity: 0.2;">
+                                <img src="images/gold.png" alt="images/833.gif" height="45px" width="45px" id="medal_gold_expert" style="opacity: 0.2;">
+                                <br>
+                            </div>
+                            <div class="col s12">
+                                <p style="color: orangered;">Graded By Peer</p>
+                                <img src="images/beginer.jpg" alt="images/833.gif" height="45px" width="45px" id="medal_default_peer" >
+                                <img src="images/bronze.png" alt="images/833.gif" height="45px" width="45px" id="medal_bronze_peer" style="opacity: 0.2;">
+                                <img src="images/silver.png" alt="images/833.gif" height="45px" width="45px" id="medal_silver_peer" style="opacity: 0.2;">
+                                <img src="images/gold.png" alt="images/833.gif" height="45px" width="45px" id="medal_gold_peer" style="opacity: 0.2;">
+                            </div>
+                            
+                            <div class="col s12" id="personalink">
+                            
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-action col s6">
-                        <video style="width:100%;height:30%;border-radius: 5px;" controls>
-                            <source src="mpe.mp4" type="video/mp4">
-                          </video>
+
+                        <div class="col s12 m6">
+                            <br>
+                            <div id="introductionvideo">
+                                <video src="./mpe.mp4" id="intro" controls></video>
+                            </div>
+                            <div class="row" id="filesdiv">
+                                <form action="/core/uploadintro" enctype="multipart/form-data" method="post" id="form_id">
+                                    <div class="file-field input-field col s7 m6">
+                                        <div class="btn blue-grey darken-4 ">
+                                        <span>File</span>
+                                        <input type="file" name="user_uploaded_video" id="user_uploaded_video" accept=".mp4" required>
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text" id="filepath">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <a class="green btn" id="uploadbtn"  onclick="form_id.submit();" disabled><i class="material-icons right">send</i>upload</a>
+                                </form>
+                            </div>
+                           
+                            <div  id="personalinfo">
+                                <!-- personal info will appended here -->
+                            </div>
+                        </div>   
                     </div>
                 </div>
-        
-            </div> 
+            </div>
         </div>
         
         <!-- profile card ends here -->
@@ -112,14 +157,12 @@
                             <div class="col m6 s5  red darken-1 tooltipped" data-position="bottom" data-tooltip="Knowledge"><br><center><i class="material-icons  Medium" style="color:white">wb_incandescent </i></center> <center><b style="color:white" id="k">0</b></center></div>
                        
                         </div>
+                        <br>
+                        <center><h3 id="gradecount">0</h3></center>
+                        
+                        <center>Video Graded</center>
                         <!-- all avg details go here -->
                     </div>
-                </div>
-                <div class="card-action blue darken-1" >
-                    <center>
-                    <a href="#" style="color: white;">Average</a>
-                    <a href="#" style="color: white;">Rating</a>
-                    </center>
                 </div>
             </div>
         </div>
@@ -133,7 +176,7 @@
     </div>
     <!-- video cards ends here -->
 
-    <!-- Modal Structure -->
+    <!-- Modal Structure for profile link -->
     <div id="modal1" class="modal">
         <div class="modal-content">
         <h4>Profile Link </h4>
@@ -142,6 +185,43 @@
         <div class="modal-footer">
         <button class="waves-effect blue darken-1 btn" onclick="copyProfile()">Copy Link <i class="material-icons right">content_copy</i></button>
         </div>
+    </div>
+
+    <!-- Modal Structure for updating profile-->
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <center><h5>Update Profile</h5></center>
+            <form action="/core/updateprofile" method="post" id="form_id2" enctype="multipart/form-data">
+                <div class="col s12">
+                    <center>
+                        <img id="demoimage"  width="155" height="150" style=" border-radius: 50%; border: solid 3px whitesmoke;" src="images/833.gif" >
+                    </center>
+                     
+
+                    <div class="file-field input-field">
+                        <div class="btn blue-grey darken-4">
+                        <span>File</span>
+                        <input type="file" name="user_uploaded_pic" id="user_uploaded_pic" required>
+                        </div>
+                        <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" id="filepath2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input id="name" name="name" type="text" class="validate" required>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <center>
+                        <a class="modal-close green btn" id="btn_update" onclick="form_id2.submit();" disabled>Update Profile</a>
+                    </center>
+                </div>
+            </form>
     </div>
 
     
@@ -252,12 +332,24 @@ function copyProfile() {
   M.toast({html: 'Link Copied',displayLength:2000})
 }
 
-
-
 $(document).ready(function(){
     $('.tooltipped').tooltip();
     //initializing modal
     $('.modal').modal();
+
+    // hiding uploading statement
+    $('#introuploading').hide()
+    
+    // hiding medals
+    $('#medal_default_peer').hide();
+    $('#medal_bronze_peer').hide();
+    $('#medal_silver_peer').hide();
+    $('#medal_gold_peer').hide();
+
+    $('#medal_default_expert').hide();
+    $('#medal_bronze_expert').hide();
+    $('#medal_silver_expert').hide();
+    $('#medal_gold_expert').hide();
 
 
     //ajax call onload of page asking for data
@@ -266,38 +358,129 @@ $(document).ready(function(){
         type:'GET',
         success:function(para){
             console.log(para)
-            $("#profileimage"). attr("src",para.user.ipath);
+            if(para.user.ppath == 'na')
+            {
+                $("#profileimage"). attr("src",para.user.ipath);
+            } 
+            else
+            {
+                $("#profileimage"). attr("src",para.user.ppath);
+            }
+            
             $("#avgrate").append(para.user.avgall);
+            $('#gradecount').text(para.user.gradecount)
+            // introduction video
+            if(para.user.intropath != 'na')
+            {
+                $('#introductionvideo').empty()
+                $('#introductionvideo').append('<video src="'+para.user.intropath+'" id="intro" controls></video>')
+            }
             var w2;
             var l;
-            //Setting Medal
+            //Setting Expert Medal 
             if(para.user.avgall == 0)
             {
+                $('#medal_bronze_expert').show();
+                $('#medal_silver_expert').show();
+                $('#medal_gold_expert').show();
+                const element =  document.querySelector('#medal_default_expert')   
+                $('#medal_default_expert').show();
+                element.classList.add('animated', 'heartBeat')
+
                 $('#floatavg').append('<center><a class="btn-floating btn-large red" >'+para.user.avgall+'</a></center>')
                 w2 = '<div class="determinate" style="width: 0%;background-color: green;"></div>'
             } 
             else if(para.user.avgall <= 2)
             {
-                $('#medal').attr("src", "images/bronze.png")
+                $('#medal_default_expert').show();
+                $('#medal_silver_expert').show();
+                $('#medal_gold_expert').show();
+                const element =  document.querySelector('#medal_bronze_expert')   
+                $('#medal_bronze_expert').show();
+                $('#medal_bronze_expert').css('opacity', '1');
+                element.classList.add('animated', 'heartBeat')
+
                 $('#floatavg').append('<center><a class="btn-floating btn-large red" >'+para.user.avgall+'</a></center>')
                 l = para.user.avgall * 20
                 w2 = '<div class="determinate" style="width: '+l+'%;background-color: red;"></div>'
             }
             else if(para.user.avgall>2 && para.user.avgall<=4)
             {
-                $('#medal').attr("src", "images/silver.png")
+                $('#medal_default_expert').show();
+                $('#medal_bronze_expert').show();
+                $('#medal_gold_expert').show();
+                const element =  document.querySelector('#medal_silver_expert')   
+                $('#medal_bronze_expert').css('opacity', '1');
+                $('#medal_silver_expert').show();
+                $('#medal_silver_expert').css('opacity', '1');
+                element.classList.add('animated', 'heartBeat')
+                
                 $('#floatavg').append('<center><a class="btn-floating btn-large orange" >'+para.user.avgall+'</a></center>')
                 l = para.user.avgall * 20
                 w2 = '<div class="determinate" style="width: '+l+'%;background-color: orange;"></div>'
             }
             else
             {
-                $('#medal').attr("src", "images/gold.png")
+                $('#medal_default_expert').show();
+                $('#medal_bronze_expert').show();
+                $('#medal_silver_expert').show();
+                const element =  document.querySelector('#medal_gold_expert')   
+                $('#medal_bronze_expert').css('opacity', '1');
+                $('#medal_silver_expert').css('opacity', '1');
+                $('#medal_gold_expert').show();
+                $('#medal_gold_expert').css('opacity', '1');
+                element.classList.add('animated', 'heartBeat')
+                
                 $('#floatavg').append('<center><a class="btn-floating btn-large green" >'+para.user.avgall+'</a></center>')
                 l = para.user.avgall * 20
                 w2 = '<div class="determinate" style="width: '+l+'%;background-color: green;"></div>'
             }
-            //setting medal ends here 
+            //setting expert medal ends here 
+
+            //Setting Peer Medal 
+            if(para.user.peeravgall == 0)
+            {
+                $('#medal_bronze_peer').show();
+                $('#medal_silver_peer').show();
+                $('#medal_gold_peer').show();
+                const element =  document.querySelector('#medal_default_peer')   
+                $('#medal_default_peer').show();
+                element.classList.add('animated', 'heartBeat')
+            } 
+            else if(para.user.peeravgall <= 2)
+            {
+                $('#medal_default_peer').show();
+                $('#medal_silver_peer').show();
+                $('#medal_gold_peer').show();
+                const element =  document.querySelector('#medal_bronze_peer')   
+                $('#medal_bronze_peer').show();
+                $('#medal_bronze_peer').css('opacity', '1');
+                element.classList.add('animated', 'heartBeat')
+            }
+            else if(para.user.peeravgall>2 && para.user.peeravgall<=4)
+            {
+                $('#medal_default_peer').show();
+                $('#medal_bronze_peer').show();
+                $('#medal_gold_peer').show();
+                const element =  document.querySelector('#medal_silver_peer')   
+                $('#medal_bronze_peer').css('opacity', '1');
+                $('#medal_silver_peer').show();
+                $('#medal_silver_peer').css('opacity', '1');
+                element.classList.add('animated', 'heartBeat')
+            }
+            else
+            {
+                $('#medal_default_peer').show();
+                $('#medal_bronze_peer').show();
+                $('#medal_silver_peer').show();
+                const element =  document.querySelector('#medal_gold_peer')   
+                $('#medal_bronze_peer').css('opacity', '1');
+                $('#medal_silver_peer').css('opacity', '1');
+                $('#medal_gold_peer').show();
+                $('#medal_gold_peer').css('opacity', '1');
+                element.classList.add('animated', 'heartBeat')
+            }
+            //setting peer medal ends here 
 
             var w1 = '<div class="progress" style="background-color:#b0bec5 ;">'
             var w3 = '</div>'
@@ -306,8 +489,19 @@ $(document).ready(function(){
             var str1 = "<p><b>Name :</b> "+para.user.name+"</p><p><b>Mail :</b> "+para.user.mail+""
             var str2 = "<p><a class='waves-effect blue darken-1 btn modal-trigger' href='#modal1'>Share Profile<i class='material-icons right'>share</i></a></p>"
 
-            var str = str1+str2
-            $("#personalinfo").append(str)
+            $("#personalink").append(str2)
+            $("#personalink").append(str1)
+            
+            $('#name').val(para.user.name)
+            if(para.user.ppath == 'na')
+            {
+                $("#demoimage"). attr("src",para.user.ipath);
+            } 
+            else
+            {
+                $("#demoimage"). attr("src",para.user.ppath);
+            }
+            
 
             $("#link").val("https://preskilet.herokuapp.com/mainpage/sharedProfile?mail="+para.user.mail)
             $('#e').html(para.user.avgeye)
@@ -343,6 +537,90 @@ $(document).ready(function(){
             }
         }
     })
+
+    // validating introduction file
+    $('#user_uploaded_video').change(function(){
+        var fi = document.getElementById('user_uploaded_video'); 
+        var videoext=$('#user_uploaded_video').val().split('.');
+        var checkvideo=videoext[videoext.length-1];
+
+        // Check if any file is selected. 
+        if (fi.files.length > 0) { 
+            for (let i = 0; i <= fi.files.length - 1; i++) { 
+
+                var fsize = fi.files.item(i).size; 
+                var file = Math.round((fsize / 1024)); 
+                // The size of the file. 
+                
+                if (file >= 15000)
+                { 
+                    alert("File too Big, please select a file less than 15mb"); 
+                    $('#user_uploaded_video').val("");
+                    $('#uploadbtn').attr('disabled',true)
+                }
+                else
+                {
+                    if(!(checkvideo=='mp4' || checkvideo=='webm' || checkvideo=='m4a'))
+                    {
+                        alert('Invalid File Format,Only MP4 files accepted...!')
+                        $('#user_uploaded_video').val("");
+                        $('#uploadbtn').attr('disabled',true)
+                    }
+                    else
+                    {
+                        $('#uploadbtn').attr('disabled',false)
+                    }
+                }
+
+            } 
+        } 
+    }) 
+
+    // onclick of upload button
+    $('#uploadbtn').click(function(){
+        $('#filesdiv').hide()
+        document.getElementById("overlay").style.display = "block";
+    })
+
+    // onchange of profile update
+    $('#user_uploaded_pic').change(function(){
+        // validations and preview will go here
+        var fi = document.getElementById('user_uploaded_pic'); 
+        var name=$('#name').val();
+        var picext=$('#user_uploaded_pic').val().split('.');
+        var checkpic=picext[picext.length-1];
+        
+
+        if(!(checkpic=='jpg' || checkpic=='jpeg' || checkpic=='png'))
+        {
+            alert('Invalid File Format,Only jpg,jpeg,png files accepted...!')
+            $('#user_uploaded_pic').val("");
+        }
+        // Check if any file is selected. 
+        if (fi.files.length > 0) { 
+
+            
+            for (let i = 0; i <= fi.files.length - 1; i++) { 
+                if(name=="")
+                {
+                    alert('Please Enter Name')
+                } 
+                else
+                {
+                    var $source = $('#demoimage');
+                    $source[0].src = URL.createObjectURL(this.files[0]);
+                    $('#btn_update').attr('disabled',false)
+                }
+
+            } 
+        } 
+    })
+
+    // onclick of update btn
+    $('#btn_update').click(function(){
+        document.getElementById("overlay").style.display = "block";
+    })
+    
 })
 </script>
 </html>

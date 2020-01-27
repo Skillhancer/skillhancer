@@ -5,12 +5,15 @@
     <link rel="icon" href="/images/logo.png">
     <!--icons  -->
      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
     <!-- Compiled and minified CSS -->
      <link rel="stylesheet" href="css/materialize.min.css">
      <link rel="stylesheet" href="css/materialize.css">
      <link rel="stylesheet" href="css/navbar.css">
      <link rel="stylesheet" href="css/body.css">
      <link rel="stylesheet" href="css/profile.css">
+     <link rel="stylesheet" href="css/introductionvideo.css">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
      <link rel="stylesheet" href="css/preloader.css">
 
@@ -29,10 +32,8 @@
             $("#preloder").fadeOut("slow");
         });
     </script>
-     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-             
 </head>
 <div id="preloder"> 
     
@@ -67,14 +68,43 @@
     <div class="row">
         <div class="col s12 m9 offset-m1">
             <div class="card white">
-                <div class="card-content white-text " style="background: linear-gradient(-135deg, #36d1dc,#5b86e5 );">
+                <div class="card-content white-text " style="background: #1e88e5;">
                     <span class="card-title" ><img id="profileimage"  width="155" height="150" style=" border-radius: 50%; border: solid 3px whitesmoke;" src="images/833.gif"> 
                     </span>
                 </div>
                 <div class="card-action" style="padding-bottom: 5px;">
-                    <img src="images/beginer.jpg" alt="images/833.gif" height="80px" width="80px" id="medal">
-                    <div class="row" id="personalinfo">
-                        <!-- personal info will appended here -->
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="col s12">
+                                <p style="color: green;">Graded By Expert</p>
+                                <img src="images/beginer.jpg" alt="images/833.gif" height="45px" width="45px" id="medal_default_expert" >
+                                <img src="images/bronze.png" alt="images/833.gif" height="45px" width="45px" id="medal_bronze_expert" style="opacity: 0.2;">
+                                <img src="images/silver.png" alt="images/833.gif" height="45px" width="45px" id="medal_silver_expert" style="opacity: 0.2;">
+                                <img src="images/gold.png" alt="images/833.gif" height="45px" width="45px" id="medal_gold_expert" style="opacity: 0.2;">
+                                <br>
+                            </div>
+                            <div class="col s12">
+                                <p style="color: orangered;">Graded By Peer</p>
+                                <img src="images/beginer.jpg" alt="images/833.gif" height="45px" width="45px" id="medal_default_peer" >
+                                <img src="images/bronze.png" alt="images/833.gif" height="45px" width="45px" id="medal_bronze_peer" style="opacity: 0.2;">
+                                <img src="images/silver.png" alt="images/833.gif" height="45px" width="45px" id="medal_silver_peer" style="opacity: 0.2;">
+                                <img src="images/gold.png" alt="images/833.gif" height="45px" width="45px" id="medal_gold_peer" style="opacity: 0.2;">
+                            </div>
+                            
+                            <div class="col s12" id="personalink">
+                            
+                            </div>
+                        </div>
+
+                        <div class="col s12 m6">
+                            <br>
+                            <div id="introductionvideo">
+                                <img src="images/nointro.PNG" id="intro" style="border: 2px solid black;">
+                            </div>
+                            <div  id="personalinfo">
+                                <!-- personal info will appended here -->
+                            </div>
+                        </div>   
                     </div>
                 </div>
             </div>
@@ -104,6 +134,10 @@
                             <div class="col m6 s5  red darken-1 tooltipped" data-position="bottom" data-tooltip="Knowledge"><br><center><i class="material-icons  Medium" style="color:white">wb_incandescent </i></center> <center><b style="color:white" id="k">0</b></center></div>
                         
                         </div>
+                        <br>
+                        <center><h3 id="gradecount">0</h3></center>
+                        
+                        <center>Video Graded</center>
                         <!-- all avg details go here -->
                     </div>
                 </div>
@@ -161,6 +195,18 @@ $(document).ready(function(){
     $('.tooltipped').tooltip();
     //initializing modal
     $('.modal').modal();
+    
+    // hiding medals
+    $('#medal_default_peer').hide();
+    $('#medal_bronze_peer').hide();
+    $('#medal_silver_peer').hide();
+    $('#medal_gold_peer').hide();
+
+    $('#medal_default_expert').hide();
+    $('#medal_bronze_expert').hide();
+    $('#medal_silver_expert').hide();
+    $('#medal_gold_expert').hide();
+
 
     //ajax call onload of page asking for data
     $.ajax({
@@ -171,38 +217,130 @@ $(document).ready(function(){
         },
         success:function(para){
             console.log(para)
-            $("#profileimage"). attr("src",para.user.ipath);
+            if(para.user.ppath == 'na')
+            {
+                $("#profileimage"). attr("src",para.user.ipath);
+            } 
+            else
+            {
+                $("#profileimage"). attr("src",para.user.ppath);
+            }
             $("#avgrate").append(para.user.avgall);
+            $('#gradecount').text(para.user.gradecount)
             var w2;
             var l;
-            //Setting Medal
+            
+            // introduction video
+            if(para.user.intropath != 'na')
+            {
+                $('#introductionvideo').empty()
+                $('#introductionvideo').append('<video src="'+para.user.intropath+'" id="intro" controls></video>')
+            }
+            
+            //Setting Expert Medal 
             if(para.user.avgall == 0)
             {
+                $('#medal_bronze_expert').show();
+                $('#medal_silver_expert').show();
+                $('#medal_gold_expert').show();
+                const element =  document.querySelector('#medal_default_expert')   
+                $('#medal_default_expert').show();
+                element.classList.add('animated', 'heartBeat')
+
                 $('#floatavg').append('<center><a class="btn-floating btn-large red" >'+para.user.avgall+'</a></center>')
                 w2 = '<div class="determinate" style="width: 0%;background-color: green;"></div>'
             } 
             else if(para.user.avgall <= 2)
             {
-                $('#medal').attr("src", "images/bronze.png")
+                $('#medal_default_expert').show();
+                $('#medal_silver_expert').show();
+                $('#medal_gold_expert').show();
+                const element =  document.querySelector('#medal_bronze_expert')   
+                $('#medal_bronze_expert').show();
+                $('#medal_bronze_expert').css('opacity', '1');
+                element.classList.add('animated', 'heartBeat')
+
                 $('#floatavg').append('<center><a class="btn-floating btn-large red" >'+para.user.avgall+'</a></center>')
                 l = para.user.avgall * 20
                 w2 = '<div class="determinate" style="width: '+l+'%;background-color: red;"></div>'
             }
             else if(para.user.avgall>2 && para.user.avgall<=4)
             {
-                $('#medal').attr("src", "images/silver.png")
+                $('#medal_default_expert').show();
+                $('#medal_bronze_expert').show();
+                $('#medal_gold_expert').show();
+                const element =  document.querySelector('#medal_silver_expert')   
+                $('#medal_bronze_expert').css('opacity', '1');
+                $('#medal_silver_expert').show();
+                $('#medal_silver_expert').css('opacity', '1');
+                element.classList.add('animated', 'heartBeat')
+                
                 $('#floatavg').append('<center><a class="btn-floating btn-large orange" >'+para.user.avgall+'</a></center>')
                 l = para.user.avgall * 20
                 w2 = '<div class="determinate" style="width: '+l+'%;background-color: orange;"></div>'
             }
             else
             {
-                $('#medal').attr("src", "images/gold.png")
+                $('#medal_default_expert').show();
+                $('#medal_bronze_expert').show();
+                $('#medal_silver_expert').show();
+                const element =  document.querySelector('#medal_gold_expert')   
+                $('#medal_bronze_expert').css('opacity', '1');
+                $('#medal_silver_expert').css('opacity', '1');
+                $('#medal_gold_expert').show();
+                $('#medal_gold_expert').css('opacity', '1');
+                element.classList.add('animated', 'heartBeat')
+                
                 $('#floatavg').append('<center><a class="btn-floating btn-large green" >'+para.user.avgall+'</a></center>')
                 l = para.user.avgall * 20
                 w2 = '<div class="determinate" style="width: '+l+'%;background-color: green;"></div>'
             }
-            //setting medal ends here 
+            //setting expert medal ends here 
+
+            //Setting Peer Medal 
+            if(para.user.peeravgall == 0)
+            {
+                $('#medal_bronze_peer').show();
+                $('#medal_silver_peer').show();
+                $('#medal_gold_peer').show();
+                const element =  document.querySelector('#medal_default_peer')   
+                $('#medal_default_peer').show();
+                element.classList.add('animated', 'heartBeat')
+            } 
+            else if(para.user.peeravgall <= 2)
+            {
+                $('#medal_default_peer').show();
+                $('#medal_silver_peer').show();
+                $('#medal_gold_peer').show();
+                const element =  document.querySelector('#medal_bronze_peer')   
+                $('#medal_bronze_peer').show();
+                $('#medal_bronze_peer').css('opacity', '1');
+                element.classList.add('animated', 'heartBeat')
+            }
+            else if(para.user.peeravgall>2 && para.user.peeravgall<=4)
+            {
+                $('#medal_default_peer').show();
+                $('#medal_bronze_peer').show();
+                $('#medal_gold_peer').show();
+                const element =  document.querySelector('#medal_silver_peer')   
+                $('#medal_bronze_peer').css('opacity', '1');
+                $('#medal_silver_peer').show();
+                $('#medal_silver_peer').css('opacity', '1');
+                element.classList.add('animated', 'heartBeat')
+            }
+            else
+            {
+                $('#medal_default_peer').show();
+                $('#medal_bronze_peer').show();
+                $('#medal_silver_peer').show();
+                const element =  document.querySelector('#medal_gold_peer')   
+                $('#medal_bronze_peer').css('opacity', '1');
+                $('#medal_silver_peer').css('opacity', '1');
+                $('#medal_gold_peer').show();
+                $('#medal_gold_peer').css('opacity', '1');
+                element.classList.add('animated', 'heartBeat')
+            }
+            //setting peer medal ends here 
 
             //appending personal info 
             var w1 = '<div class="progress" style="background-color:#b0bec5 ;">'
@@ -210,9 +348,10 @@ $(document).ready(function(){
             var w = w1+w2+w3;
             $('#progress_bar').append(w)
             var str1 = "<p><b>Name :</b> "+para.user.name+"</p><p><b>Mail :</b> "+para.user.mail+"</p>"
-            var str2 = "<p><a class='waves-effect blue darken-1 btn modal-trigger' href='#modal1'>Share Profile<i class='material-icons right'>share</i></a></p>"
-            var str = str1+str2
-            $("#personalinfo").append(str)
+            var str2 = "<br><p><a class='waves-effect blue darken-1 btn modal-trigger' href='#modal1'>Share Profile<i class='material-icons right'>share</i></a></p>"
+            $("#personalinfo").append(str2)
+            $("#personalink").append(str1)
+
             $("#link").val("https://preskilet.herokuapp.com/mainpage/sharedProfile?mail="+para.user.mail)
             $('#e').html(para.user.avgeye)
             $('#v').html(para.user.avgvoice)
@@ -424,7 +563,7 @@ function gradeStudent(x)
                 $(irates).empty()
                 
                 //updating rated value of current video
-                var updatedstr = '<span class="badge activator" style="color: #1565c0;float: left; padding-left: 0%; margin: 0%;cursor: pointer;"><i class="material-icons left">remove_red_eye</i>'+para.video[0].avgeye+'</span><span class="badge activator" style="color: #1565c0;float: left;padding-left: 0%;cursor: pointer;"><i class="material-icons left">record_voice_over</i>'+para.video[0].avgvoice+'</span><span class="badge activator" style="color: #1565c0;float: left;padding-left: 0%;cursor: pointer;"><i class="material-icons left">portrait</i>'+para.video[0].avgconfidence+'</span><span class="badge activator" style="color: #1565c0;float: left;padding-left: 0%;cursor: pointer;"><i class="material-icons left">wb_incandescent</i>'+para.video[0].avgknowledge+'</span>'
+                var updatedstr = '<span class="badge activator" style="color: #1565c0;float: left; padding-left: 0%; margin: 0%;cursor: pointer;"><i class="material-icons left">remove_red_eye</i>'+parseInt(((para.video[0].avgeye+para.video[0].peeravgeye)/2))+'</span><span class="badge activator" style="color: #1565c0;float: left;padding-left: 0%;cursor: pointer;"><i class="material-icons left">record_voice_over</i>'+parseInt(((para.video[0].avgvoice+para.video[0].peeravgvoice)/2))+'</span><span class="badge activator" style="color: #1565c0;float: left;padding-left: 0%;cursor: pointer;"><i class="material-icons left">portrait</i>'+parseInt(((para.video[0].avgconfidence+para.video[0].peeravgconfidence)/2))+'</span><span class="badge activator" style="color: #1565c0;float: left;padding-left: 0%;cursor: pointer;"><i class="material-icons left">wb_incandescent</i>'+parseInt(((para.video[0].avgknowledge+para.video[0].peeravgknowledge)/2))+'</span>'
                 $(irates).append(updatedstr)
             }
         })

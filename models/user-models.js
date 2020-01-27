@@ -6,6 +6,8 @@ const userSchema = new Schema({
     googleId : String,
     mail: String,
     ipath : String,
+    intropath : String,
+    ppath:String,
     avgeye : Number,
     avgvoice : Number,
     avgconfidence : Number,

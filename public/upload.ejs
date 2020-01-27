@@ -114,9 +114,7 @@
                                 </center>
                                 <br>
                                 <div id="videopreview" class="row" style="display:none;">
-                                    
                                     <video  src="" id="vid" class="activator"  width="100%" height="50%" style="border:solid;background-color:black;" controls muted></video>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -197,59 +195,59 @@ $(document).ready(function(){
 
 
 $('#user_uploaded_video').change(function(){
-
-
     $('#removebtn').show();
-        var fi = document.getElementById('user_uploaded_video'); 
-        var videotitle=$('#title').val();
-        var videodescript=$('#description').val();
-        var videoext=$('#user_uploaded_video').val().split('.');
-        var checkvideo=videoext[1];
+    var fi = document.getElementById('user_uploaded_video'); 
+    var videotitle=$('#title').val();
+    var videodescript=$('#description').val();
+    var videoext=$('#user_uploaded_video').val().split('.');
+    var checkvideo=videoext[videoext.length-1];
+    
+
+    if(!(checkvideo=='mp4' || checkvideo=='webm' || checkvideo=='m4a'))
+    {
+        alert('Invalid File Format,Only MP4 files accepted...!')
+        $('#user_uploaded_video').val("");
+    }
+    // Check if any file is selected. 
+    if (fi.files.length > 0) { 
+
         
+        for (let i = 0; i <= fi.files.length - 1; i++) { 
 
-        if(checkvideo!='mp4')
-        {
-            alert('Invalid File Format,Only MP4 files accepted...!')
-            $('#user_uploaded_video').val("");
-        }
-        // Check if any file is selected. 
-        if (fi.files.length > 0) { 
-
+            var fsize = fi.files.item(i).size; 
+            var file = Math.round((fsize / 1024)); 
+            // The size of the file. 
             
-            for (let i = 0; i <= fi.files.length - 1; i++) { 
-  
-                var fsize = fi.files.item(i).size; 
-                var file = Math.round((fsize / 1024)); 
-                // The size of the file. 
-               
-                if (file >= 15000) { 
-                    alert("File too Big, please select a file less than 15mb"); 
-                    $('#user_uploaded_video').val("");
-                      $('#atag').hide()
-					 }
-                else if(videotitle=="")
-                {
-                    alert('Please Add Video Title...!')
-                    //$('#atag').hide();
-                } 
-                else if(videodescript=="")
-                {
-                    alert('Please Add Video Description...!')
-                    //$('#atag').hide();
-                } 
-                else
-                {
-                    $('#videopreview').slideDown("slow");
-                    $('#videop').show();
-                    var $source = $('#vid');
-                    $source[0].src = URL.createObjectURL(this.files[0]);
-                    $source[0].load();
-                    $('#atag').fadeIn(600);
-                }
-
+            if (file >= 15000) { 
+                alert("File too Big, please select a file less than 15mb"); 
+                $('#user_uploaded_video').val("");
+                    $('#atag').hide()
+                    }
+            else if(videotitle=="")
+            {
+                alert('Please Add Video Title...!')
+                //$('#atag').hide();
             } 
+            else if(videodescript=="")
+            {
+                alert('Please Add Video Description...!')
+                //$('#atag').hide();
+            } 
+            else
+            {
+                $('#videopreview').slideDown("slow");
+                $('#videop').show();
+                var $source = $('#vid');
+                $source[0].src = URL.createObjectURL(this.files[0]);
+                $source[0].load();
+                $('#atag').fadeIn(600);
+            }
+
         } 
-    }) 
+    } 
+}) 
+
+
 </script>
 </body>
 </html>
