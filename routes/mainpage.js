@@ -93,8 +93,8 @@ router.post('/uploadproject',(req,res)=>{
 
     if( mytitle.length > 200 || mytitle.length < 5 || mydescription > 5000 || mydescription < 5)
     {
-        console.log("length of video_name is greater then 20000 and less than 5 which can be vulnerable");
-        res.send("400")
+        console.log("this is hacking i am redirecting to wrog.ejs");
+        res.redirect("/wrong")
     }
     else
     {

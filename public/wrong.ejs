@@ -1,0 +1,89 @@
+<html>
+<head>
+   
+    <title>Upload Presentation</title>
+    <link rel="icon" href="/images/logo.png">
+    <!--icons  -->
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+     <link rel="stylesheet" href="css/materialize.min.css">
+     <link rel="stylesheet" href="css/materialize.css">
+     <link rel="stylesheet" href="css/navbar.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     <link rel="stylesheet" href="css/preloader.css">
+
+     <!-- Compiled and minified JavaScript -->
+     <script src="js/materialize.min.js"></script>
+     <script src="js/materialize.js"></script>
+     <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+     <script type="text/javascript" src="js/navbar.js"></script>
+     <script>
+        //Preloader 
+        $(window).on('load', function() {
+              $(".sk-cube-grid").fadeOut();
+            $("#preloder").fadeOut("slow");
+        });
+    </script>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+    
+<style>
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .default {
+        cursor: default;
+    }
+</style>
+
+             
+</head>
+<div id="preloder"> 
+    
+    <div class="sk-cube-grid">
+        <div class="sk-cube sk-cube1"></div>
+        <div class="sk-cube sk-cube2"></div>
+        <div class="sk-cube sk-cube3"></div>
+        <div class="sk-cube sk-cube4"></div>
+        <div class="sk-cube sk-cube5"></div>
+        <div class="sk-cube sk-cube6"></div>
+        <div class="sk-cube sk-cube7"></div>
+        <div class="sk-cube sk-cube8"></div>
+        <div class="sk-cube sk-cube9"></div>
+            <b style="font-size:15px;">SkillHancer<br> 
+            
+    </div>
+</div>
+<body>
+   
+    <div class="topnav" id="myTopnav" style="width: 100%;">
+        <a href="/mainpage/" class="active"><i class="fa fa-fw fa-home"></i> SkillHancer</a>
+        <a href="/upload"><i class="fa fa-fw fa-cloud-upload "></i> Upload Presentation</a>
+        <a href="/mainpage/myprofile"><i class="fa fa-fw fa-user"></i> Profile</a>
+        <a href="/auth/logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="material-icons">apps</i>
+        </a>
+        </div>
+    <br>
+
+<div id="parent">
+    <form action="/mainpage/uploadproject" method="post" id="form_id" enctype="multipart/form-data" >
+        <div class="row">
+            <div class="col s12 m6 offset-m3">
+                <div class="card " style="border: solid 2px black;">
+                    <div class="card-content ">
+                        <span class="card-title">Something went wrong ! Please try again...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

@@ -104,6 +104,10 @@ app.get('/privacypolicy',(req,res)=>{
   res.render('privacy_policy')
 })
 
+app.get('/wrong',(req,res)=>{
+  res.render("wrong");
+})
+
 //listening
 app.listen(port,function(req,res){
   console.log('turned on 3000');
