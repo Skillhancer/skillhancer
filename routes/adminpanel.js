@@ -17,11 +17,18 @@ router.get('/giveInapropriateVideo',(req,res)=>{
 
 //Ajax response for deleting video
 router.get('/deletevideo',(req,res)=>{
-    
-    var video_name = req.query.name
+
+    var video_name = String(req.query.name);
     console.log('Name : ',video_name)
-    var vpath = req.query.path
-   
+    var vpath = String(req.query.path)
+
+    if( video_name.length > 2000 || video_name.length < 5 || vpath > 2000 || vpath < 5)
+    {
+        console.log("length of video_name is greater then 20000 and less than 5 which can be vulnerable");
+        res.send("400")
+    }
+    else
+    {
     //1)delete from bucket
     const file = bucket.file(video_name);
     
@@ -88,6 +95,8 @@ router.get('/deletevideo',(req,res)=>{
         })
    
     });
+}
+
 })
 
 

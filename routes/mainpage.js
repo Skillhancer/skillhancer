@@ -87,74 +87,85 @@ router.get('/givevideo',(req,res)=>{
 
 //Module For Uploading Videos Starts here 
 router.post('/uploadproject',(req,res)=>{
-    
-    //multer initialization
-    var storage2 = multer.diskStorage({
-        destination:'./public/uploads/videos/',
-        filename: function(req, file, cb) 
-        {
-        cb(null, file.fieldname + '-' + Date.now() +path.extname(file.originalname));
-        }
-    });
-    var upload2 = multer({ storage: storage2 }).single('user_uploaded_video');
-    
-    //upload video
-    var videopath;
-    upload2(req,res,function(err){
-        var name = './public/uploads/videos/'+req.file.filename
-        console.log("name of file:",name)
-        var gname = req.file.filename
-        const options = {
-            resumable: false,
-            
-          };
-        bucket.upload(name,options,function(err, file, apiResponse) {
-            console.log('inside Error:',err)
-            console.log('inside File:',file)
-            console.log('inside response:',apiResponse)
-            
 
-            
-            const f = bucket.file(gname)
-            f.makePublic().then(function(data) {
-            
-              const apiResponse = data[0];
-              console.log("This is apiResponse:",apiResponse)
-              console.log("This is data:",data)
-              f.getMetadata().then(function(data) {
-                const metadata = data[0];
-                const apiResponse = data[1];
-                console.log("This is metadata:",metadata.mediaLink)
-                console.log("This is LAst PI:",apiResponse)
+    var mytitle = String(req.body.title);
+    var mydescription = String(req.body.description)
 
-                new Video({
-                    mail : req.user.mail,
-                    name : req.user.name,
-                    title : req.body.title,
-                    description : req.body.description,
-                    path : metadata.mediaLink,
-                    vname:gname,
-                    avgeye : 0,
-                    avgvoice : 0,
-                    avgconfidence : 0,
-                    avgknowledge : 0,
-                    peeravgeye : 0,
-                    peeravgvoice : 0,
-                    peeravgconfidence : 0,
-                    peeravgknowledge : 0,
-                    inapropriate_count:0,
-                    
-                }).save().then((newVideo)=>{
-                    console.log('new video:',newVideo);
-                    res.redirect('/giveMyProfilepage'); 
-                });
-               
-              });
-            });
-
+    if( mytitle.length > 200 || mytitle.length < 5 || mydescription > 5000 || mydescription < 5)
+    {
+        console.log("length of video_name is greater then 20000 and less than 5 which can be vulnerable");
+        res.send("400")
+    }
+    else
+    {
+        //multer initialization
+        var storage2 = multer.diskStorage({
+            destination:'./public/uploads/videos/',
+            filename: function(req, file, cb) 
+            {
+            cb(null, file.fieldname + '-' + Date.now() +path.extname(file.originalname));
+            }
         });
+        var upload2 = multer({ storage: storage2 }).single('user_uploaded_video');
         
-    });
+        //upload video
+        var videopath;
+        upload2(req,res,function(err){
+            var name = './public/uploads/videos/'+req.file.filename
+            console.log("name of file:",name)
+            var gname = req.file.filename
+            const options = {
+                resumable: false,
+                
+            };
+            bucket.upload(name,options,function(err, file, apiResponse) {
+                console.log('inside Error:',err)
+                console.log('inside File:',file)
+                console.log('inside response:',apiResponse)
+                
+
+                
+                const f = bucket.file(gname)
+                f.makePublic().then(function(data) {
+                
+                const apiResponse = data[0];
+                console.log("This is apiResponse:",apiResponse)
+                console.log("This is data:",data)
+                f.getMetadata().then(function(data) {
+                    const metadata = data[0];
+                    const apiResponse = data[1];
+                    console.log("This is metadata:",metadata.mediaLink)
+                    console.log("This is LAst PI:",apiResponse)
+
+                    new Video({
+                        mail : req.user.mail,
+                        name : req.user.name,
+                        title : req.body.title,
+                        description : req.body.description,
+                        path : metadata.mediaLink,
+                        vname:gname,
+                        avgeye : 0,
+                        avgvoice : 0,
+                        avgconfidence : 0,
+                        avgknowledge : 0,
+                        peeravgeye : 0,
+                        peeravgvoice : 0,
+                        peeravgconfidence : 0,
+                        peeravgknowledge : 0,
+                        inapropriate_count:0,
+                        
+                    }).save().then((newVideo)=>{
+                        console.log('new video:',newVideo);
+                        res.redirect('/giveMyProfilepage'); 
+                    });
+                
+                });
+                });
+
+            });
+            
+        });
+}
 })
 
 //Module For Uploading Videos Ends here 
@@ -164,6 +175,18 @@ router.post('/uploadproject',(req,res)=>{
 // module for search query starts here
 
 router.get('/search',(req,res)=>{
+    var mysearchval = String(req.query.searchval)
+
+    if( mysearchval.length > 200 || mysearchval.length < 5)
+    {
+        console.log("length of video_name is greater then 20000 and less than 5 which can be vulnerable");
+        res.send("400")
+    }
+    else
+    {
+    
+   
+
     const para=[];
     var flag =0;
     References.findOne({'uid':'123'}).then((ref)=>{
@@ -240,7 +263,7 @@ router.get('/search',(req,res)=>{
     
     })
     
-    
+}
 })
 
 // module for search query ends here 
@@ -402,10 +425,17 @@ router.get('/getSharedDetails',(req,res)=>{
 
 router.get('/remove',(req,res)=>{
     console.log("This is path:",req.query)
-    var video_name = req.query.vid_name
-    var vpath = req.query.vid_path
-   
-    
+    var video_name = String(req.query.name);
+    console.log('Name : ',video_name)
+    var vpath = String(req.query.path)
+
+    if( video_name.length > 2000 || video_name.length < 5 || vpath > 2000 || vpath < 5)
+    {
+        console.log("length of video_name is greater then 20000 and less than 5 which can be vulnerable");
+        res.send("400")
+    }   
+    else
+    {
     //1)delete from bucket
     const file = bucket.file(video_name);
     
@@ -474,6 +504,7 @@ router.get('/remove',(req,res)=>{
         })
    
     });
+}
 })
 
 //module for removing the video ends 
